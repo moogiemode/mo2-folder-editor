@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { IAppSettings } from './types';
+import { saveSetting } from './settings';
 
 type State = IAppSettings;
 
@@ -10,6 +11,7 @@ interface Actions {
   setCategoriesPaneSize: (size: number) => void;
   setProfilesPaneSize: (size: number) => void;
   setSettingsCollapsed: (open: boolean) => void;
+  setStateFromSettings: (settings: Partial<IAppSettings>) => void;
 }
 
 const defaultState: State = {
@@ -30,9 +32,17 @@ export const useMO2FolderEditor = create<State & Actions>(set => ({
   settingsCollapsed: defaultState.settingsCollapsed,
 
   setTheme: theme => set({ theme }),
-  setDirectory: directory => set({ directory: directory }),
+  setDirectory: directory => {
+    console.log(directory);
+    set({ directory: directory });
+    saveSetting('directory', directory);
+  },
   setCopySuffix: suffix => set({ copySuffix: suffix }),
   setCategoriesPaneSize: size => set({ categoriesPaneSize: size }),
   setProfilesPaneSize: size => set({ profilesPaneSize: size }),
-  setSettingsCollapsed: open => set({ settingsCollapsed: open }),
+  setSettingsCollapsed: settingsCollapsed => {
+    set({ settingsCollapsed });
+    saveSetting('settingsCollapsed', settingsCollapsed);
+  },
+  setStateFromSettings: settings => set(settings),
 }));

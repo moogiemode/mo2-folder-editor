@@ -18,6 +18,7 @@ export const loadSavedAppSettings: () => Promise<void> = async () => {
 
   const promises: Record<keyof IAppSettings, Promise<void>> = {
     directory: getSavedSetting('directory').then(dir => {
+      console.log(dir)
       if (dir) setDirectory(dir);
     }),
     copySuffix: getSavedSetting('copySuffix').then(suffix => {
