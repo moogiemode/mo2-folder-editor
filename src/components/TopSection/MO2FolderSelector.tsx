@@ -8,10 +8,11 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 // import { useMO2DirEditorStore } from '@/store';
 import { Label } from '../ui/label';
+import { useMO2FolderEditor } from '@/state';
 
 export const MO2FolderSelector: FC = () => {
-  // const setMo2Directory = useMO2DirEditorStore(state => state.setMo2Directory);
-  // const mo2Directory = useMO2DirEditorStore(state => state.mo2Directory);
+  const setDirectory = useMO2FolderEditor(state => state.setDirectory);
+  const directory = useMO2FolderEditor(state => state.directory);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -33,7 +34,7 @@ export const MO2FolderSelector: FC = () => {
     timeoutRef.current = setTimeout(async () => {
       const isValidDirectory = (await exists(e.target.value)) && (await exists(await join(e.target.value, 'mods')));
       if (!isValidDirectory) return;
-      // setMo2Directory(e.target.value);
+      setDirectory(e.target.value);
     }, 500);
   };
 
@@ -46,8 +47,7 @@ export const MO2FolderSelector: FC = () => {
           Browse
         </Button>
       </div>
-      {/* {!mo2Directory && <Label className="opacity-50">Select the Mod Organizer 2 Folder Directory to get started...</Label>} */}
-      <Label className="opacity-50">Select the Mod Organizer 2 Folder Directory to get started...</Label>
+      {!directory && <Label className="opacity-50">Select the Mod Organizer 2 Folder Directory to get started...</Label>}
     </div>
   );
 };
