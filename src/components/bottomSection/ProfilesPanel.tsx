@@ -1,7 +1,7 @@
 import { ResizablePanel } from '../ui/resizable';
 import { useMO2FolderEditor } from '@/state';
 import { useDebouncedCallback } from 'use-debounce';
-import { TypographyH4 } from '../ui/typography';
+import { TypographyH4, TypographyMuted } from '../ui/typography';
 
 export const ProfilesPanel = () => {
   const saveDefaultProfilePaneSize = useMO2FolderEditor(state => state.setProfilesPaneSize);
@@ -21,7 +21,10 @@ export const ProfilesPanel = () => {
       collapsible={true}
       id="profile-panel"
       className="flex flex-col items-center bg-secondary-foreground rounded-lg">
-      <TypographyH4 className="pt-4 px-4 w-full text-center">Profiles</TypographyH4>
+      <div className="pt-4 px-4 w-full text-center">
+        <TypographyH4>Profiles</TypographyH4>
+        <TypographyMuted>All changes will be applied to the selected profiles.</TypographyMuted>
+      </div>
     </ResizablePanel>
   );
 };
