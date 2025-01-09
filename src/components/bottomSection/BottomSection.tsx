@@ -5,11 +5,11 @@ import { ModsPanel } from './ModsPanel';
 
 export const BottomSection = () => {
   return (
-    <ResizablePanelGroup direction="horizontal" className="bg-secondary-foreground rounded-lg p-4">
+    <ResizablePanelGroup direction="horizontal" className="rounded-lg p-4 flex gap-4">
       <CategoriesPanel />
-      <ResizableHandle withHandle />
+      <ResizableHandle withHandle className='bg-inherit' />
       <ModsPanel />
-      <ResizableHandle withHandle />
+      <ResizableHandle withHandle className='bg-inherit' />
       <ProfilesPanel />
     </ResizablePanelGroup>
   );

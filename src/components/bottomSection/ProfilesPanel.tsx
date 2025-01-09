@@ -12,8 +12,16 @@ export const ProfilesPanel = () => {
   }, 1000);
 
   return (
-    <ResizablePanel order={3} defaultSize={defaultProfilesPaneSize} minSize={10} maxSize={30} onResize={debouncedProfilesSizeSave} collapsible={true} id="profile-panel" className="flex flex-col items-center">
-      <TypographyH4 className='w-full'>Profiles</TypographyH4>
+    <ResizablePanel
+      order={3}
+      defaultSize={defaultProfilesPaneSize}
+      minSize={10}
+      maxSize={30}
+      onResize={debouncedProfilesSizeSave}
+      collapsible={true}
+      id="profile-panel"
+      className="flex flex-col items-center bg-secondary-foreground rounded-lg">
+      <TypographyH4 className="pt-4 px-4 w-full text-center">Profiles</TypographyH4>
     </ResizablePanel>
   );
 };
