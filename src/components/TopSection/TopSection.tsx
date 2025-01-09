@@ -9,11 +9,11 @@ export const TopSection = () => {
   const setSettingsCollapsed = useMO2FolderEditor(state => state.setSettingsCollapsed);
   return (
     <Accordion type="single" collapsible className="bg-secondary-foreground rounded-lg p-4" onValueChange={value => setSettingsCollapsed(!value)} defaultValue={settingsCollapsed ? undefined : 'settings'}>
-      <AccordionItem value="settings" className="border-none">
-        <AccordionTrigger icon={Settings} className="bg-secondary-foreground rounded-lg p-4" data-state="open">
+      <AccordionItem value="settings" className="border-none gap-4 flex flex-col">
+        <AccordionTrigger icon={Settings} className="bg-primary-foreground rounded-lg p-4">
           Settings
         </AccordionTrigger>
-        <AccordionContent>
+        <AccordionContent className="flex flex-col gap-2 p-0">
           <MO2FolderSelector />
           <SetThemeButton />
         </AccordionContent>

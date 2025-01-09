@@ -1,17 +1,16 @@
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+import { ResizableHandle, ResizablePanelGroup } from '@/components/ui/resizable';
+import { CategoriesPanel } from './CategoriesPanel';
+import { ProfilesPanel } from './ProfilesPanel';
+import { ModsPanel } from './ModsPanel';
 
 export const BottomSection = () => {
   return (
     <ResizablePanelGroup direction="horizontal" className="bg-secondary-foreground rounded-lg p-4">
-      <ResizablePanel defaultSize={15} minSize={10} maxSize={30}>
-        Categories
-      </ResizablePanel>
+      <CategoriesPanel />
       <ResizableHandle withHandle />
-      <ResizablePanel>Mods</ResizablePanel>
+      <ModsPanel />
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={15} minSize={10} maxSize={30}>
-        Profiles
-      </ResizablePanel>
+      <ProfilesPanel />
     </ResizablePanelGroup>
   );
 };
