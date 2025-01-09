@@ -3,6 +3,8 @@ import { useMO2FolderEditor } from '@/state';
 import { useDebouncedCallback } from 'use-debounce';
 import { TypographyH4, TypographyMuted } from '../ui/typography';
 import { ProfileCheckbox } from './ProfileCheckbox';
+import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
+import { CategoriesPanelContent } from './CategoriesPanelContent';
 
 export const CategoriesPanel = () => {
   const saveDefaultCategoriesPaneSize = useMO2FolderEditor(state => state.setCategoriesPaneSize);
@@ -27,15 +29,7 @@ export const CategoriesPanel = () => {
         <TypographyH4>Categories</TypographyH4>
         <TypographyMuted>These Categories will be added to all newly cloned or created Mods</TypographyMuted>
       </div>
-      <div>
-        <ProfileCheckbox>Test</ProfileCheckbox>
-        <ProfileCheckbox>Test</ProfileCheckbox>
-        <ProfileCheckbox>Test</ProfileCheckbox>
-        <ProfileCheckbox>Test</ProfileCheckbox>
-        <ProfileCheckbox>Test</ProfileCheckbox>
-        <ProfileCheckbox>Test</ProfileCheckbox>
-        <ProfileCheckbox>Test</ProfileCheckbox>
-      </div>
+      <CategoriesPanelContent />
     </ResizablePanel>
   );
 };

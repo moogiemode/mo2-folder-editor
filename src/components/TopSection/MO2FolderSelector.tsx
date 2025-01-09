@@ -9,9 +9,12 @@ import { Input } from '../ui/input';
 // import { useMO2DirEditorStore } from '@/store';
 import { Label } from '../ui/label';
 import { useMO2FolderEditor } from '@/state';
+import { arrayToObject, initCategories, initProfiles } from '../utils';
 
 export const MO2FolderSelector: FC = () => {
   const setDirectory = useMO2FolderEditor(state => state.setDirectory);
+  const setProfiles = useMO2FolderEditor(state => state.setProfiles);
+  const setCategories = useMO2FolderEditor(state => state.setCategories);
   const directory = useMO2FolderEditor(state => state.directory);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -29,11 +32,12 @@ export const MO2FolderSelector: FC = () => {
     timeoutRef.current = setTimeout(async () => {
       const isValidDirectory = (await exists(value)) && (await exists(await join(value, 'mods')));
       if (isValidDirectory) {
-        console.log('is valid');
         setDirectory(value);
+        initProfiles(value);
+        initCategories(value);
         setError(false);
       } else {
-        console.log('not valid');
+        console.error('Not a valid Mod Organizer 2 Directory.');
         setError(true);
       }
     }, 500);

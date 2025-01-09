@@ -6,3 +6,8 @@ export interface IAppSettings {
   profilesPaneSize: number;
   settingsCollapsed: boolean;
 }
+
+export interface IMO2Category {
+  id: string;
+  name: string;
+}

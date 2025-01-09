@@ -1,8 +1,15 @@
 import { create } from 'zustand';
-import { IAppSettings } from './types';
+import { IAppSettings, IMO2Category } from './types';
 import { saveSetting } from './settings';
 
-type State = IAppSettings;
+interface State extends IAppSettings {
+  categories: Record<string, IMO2Category>;
+  profiles: string[];
+  selectedCategories: string[];
+  selectedProfiles: string[];
+  mainProfile: string;
+  settingsLoaded: boolean;
+}
 
 interface Actions {
   setTheme: (theme: 'dark' | 'light') => void;
@@ -11,7 +18,12 @@ interface Actions {
   setCategoriesPaneSize: (size: number) => void;
   setProfilesPaneSize: (size: number) => void;
   setSettingsCollapsed: (open: boolean) => void;
-  setStateFromSettings: (settings: Partial<IAppSettings>) => void;
+  setStateFromSettings: (settings: Partial<IAppSettings & Pick<State, 'settingsLoaded'>>) => void;
+  setCategories: (categories: Record<string, IMO2Category>) => void;
+  setProfiles: (profiles: string[]) => void;
+  setSelectedCategories: (selectedCategories: string[]) => void;
+  setSelectedProfiles: (selectedProfiles: string[]) => void;
+  setMainProfile: (mainProfile: string) => void;
 }
 
 const defaultState: State = {
@@ -21,28 +33,45 @@ const defaultState: State = {
   categoriesPaneSize: 15,
   profilesPaneSize: 15,
   settingsCollapsed: true,
+  categories: {},
+  profiles: [],
+  selectedCategories: [],
+  selectedProfiles: [],
+  mainProfile: '',
+  settingsLoaded: false,
 };
 
 export const useMO2FolderEditor = create<State & Actions>(set => ({
-  theme: defaultState.theme,
-  directory: defaultState.directory,
-  copySuffix: defaultState.copySuffix,
-  categoriesPaneSize: defaultState.categoriesPaneSize,
-  profilesPaneSize: defaultState.profilesPaneSize,
-  settingsCollapsed: defaultState.settingsCollapsed,
+  ...defaultState,
 
-  setTheme: theme => set({ theme }),
+  setTheme: theme => {
+    set({ theme });
+    saveSetting('theme', theme);
+  },
   setDirectory: directory => {
-    console.log(directory);
     set({ directory: directory });
     saveSetting('directory', directory);
   },
-  setCopySuffix: suffix => set({ copySuffix: suffix }),
-  setCategoriesPaneSize: size => set({ categoriesPaneSize: size }),
-  setProfilesPaneSize: size => set({ profilesPaneSize: size }),
+  setCopySuffix: suffix => {
+    set({ copySuffix: suffix });
+    saveSetting('copySuffix', suffix);
+  },
+  setCategoriesPaneSize: size => {
+    set({ categoriesPaneSize: size });
+    saveSetting('categoriesPaneSize', size);
+  },
+  setProfilesPaneSize: size => {
+    set({ profilesPaneSize: size });
+    saveSetting('profilesPaneSize', size);
+  },
   setSettingsCollapsed: settingsCollapsed => {
     set({ settingsCollapsed });
     saveSetting('settingsCollapsed', settingsCollapsed);
   },
   setStateFromSettings: settings => set(settings),
+  setCategories: categories => set({ categories: categories }),
+  setProfiles: profiles => set({ profiles: profiles }),
+  setSelectedCategories: selectedCategories => set({ selectedCategories }),
+  setSelectedProfiles: selectedProfiles => set({ selectedProfiles }),
+  setMainProfile: mainProfile => set({ mainProfile }),
 }));
