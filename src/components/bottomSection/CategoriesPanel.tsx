@@ -2,8 +2,6 @@ import { ResizablePanel } from '../ui/resizable';
 import { useMO2FolderEditor } from '@/state';
 import { useDebouncedCallback } from 'use-debounce';
 import { TypographyH4, TypographyMuted } from '../ui/typography';
-import { ProfileCheckbox } from './ProfileCheckbox';
-import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
 import { CategoriesPanelContent } from './CategoriesPanelContent';
 
 export const CategoriesPanel = () => {
@@ -11,7 +9,6 @@ export const CategoriesPanel = () => {
   const defaultCategoriesPaneSize = useMO2FolderEditor(state => state.categoriesPaneSize);
 
   const debouncedCategoriesSizeSave = useDebouncedCallback((value: number) => {
-    console.log(value);
     saveDefaultCategoriesPaneSize(value);
   }, 1000);
 
