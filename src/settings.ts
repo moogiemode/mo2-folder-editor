@@ -1,7 +1,7 @@
 import { load } from '@tauri-apps/plugin-store';
 import { IAppSettings } from './types';
 import { AppState, useMO2FolderEditor } from '@/state';
-import { arrayToObject, getAllCategories, getAllProfiles } from '@/components/utils';
+import { arrayToObject, getAllCategories, getAllProfiles, getMods } from '@/components/utils';
 
 const settings = await load('settings.json', { autoSave: false });
 
@@ -17,11 +17,14 @@ export const loadSavedAppSettings: () => Promise<void> = async () => {
   if (directory) {
     const categories = arrayToObject(await getAllCategories(directory), 'id');
     const profiles = await getAllProfiles(directory);
+    const mods = await getMods(directory);
     if (!savedSettings.mainProfile || !profiles.includes(savedSettings.mainProfile)) {
       savedSettings.mainProfile = profiles[0];
     }
+
     savedSettings.categories = categories;
     savedSettings.profiles = profiles;
+    savedSettings.mods = mods;
   }
 
   setStateFromSettings({ ...savedSettings, settingsLoaded: true });

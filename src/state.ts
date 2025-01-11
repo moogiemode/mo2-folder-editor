@@ -8,7 +8,7 @@ export interface AppState extends IAppSettings {
   selectedCategories: string[];
   selectedProfiles: string[];
   settingsLoaded: boolean;
-  mods: Record<string, IModInfo[]>;
+  mods: Record<string, IModInfo>;
 }
 
 interface Actions {
@@ -24,7 +24,7 @@ interface Actions {
   setSelectedCategories: (selectedCategories: string[]) => void;
   setSelectedProfiles: (selectedProfiles: string[]) => void;
   setMainProfile: (mainProfile: string) => void;
-  setMods: (mods: Record<string, IModInfo[]>) => void;
+  setMods: (mods: Record<string, IModInfo>) => void;
 }
 
 const defaultState: AppState = {
