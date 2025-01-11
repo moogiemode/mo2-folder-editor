@@ -1,7 +1,7 @@
 import { load } from '@tauri-apps/plugin-store';
 import { IAppSettings } from './types';
-import { useMO2FolderEditor } from './state';
-import { initCategories, initProfiles } from './components/utils';
+import { AppState, useMO2FolderEditor } from '@/state';
+import { arrayToObject, getAllCategories, getAllProfiles } from '@/components/utils';
 
 const settings = await load('settings.json', { autoSave: false });
 
@@ -11,13 +11,20 @@ export async function getSavedSetting<K extends keyof IAppSettings>(key: K): Pro
 
 export const loadSavedAppSettings: () => Promise<void> = async () => {
   const setStateFromSettings = useMO2FolderEditor.getState().setStateFromSettings;
-  const savedSettings = await settings.entries().then(entries => Object.fromEntries(entries) as Partial<IAppSettings>);
-  setStateFromSettings({ ...savedSettings, settingsLoaded: true });
+  const savedSettings = await settings.entries().then(entries => Object.fromEntries(entries) as Partial<AppState>);
   const directory = savedSettings.directory;
+
   if (directory) {
-    initCategories(directory);
-    initProfiles(directory);
+    const categories = arrayToObject(await getAllCategories(directory), 'id');
+    const profiles = await getAllProfiles(directory);
+    if (!savedSettings.mainProfile || !profiles.includes(savedSettings.mainProfile)) {
+      savedSettings.mainProfile = profiles[0];
+    }
+    savedSettings.categories = categories;
+    savedSettings.profiles = profiles;
   }
+
+  setStateFromSettings({ ...savedSettings, settingsLoaded: true });
 };
 
 export async function saveSetting<K extends keyof IAppSettings>(key: K, value: IAppSettings[K]): Promise<void> {

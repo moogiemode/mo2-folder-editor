@@ -1,14 +1,14 @@
 import { create } from 'zustand';
-import { IAppSettings, IMO2Category } from './types';
+import { IAppSettings, IMO2Category, IModInfo } from './types';
 import { saveSetting } from './settings';
 
-interface State extends IAppSettings {
+export interface AppState extends IAppSettings {
   categories: Record<string, IMO2Category>;
   profiles: string[];
   selectedCategories: string[];
   selectedProfiles: string[];
-  mainProfile: string;
   settingsLoaded: boolean;
+  mods: Record<string, IModInfo[]>;
 }
 
 interface Actions {
@@ -18,15 +18,16 @@ interface Actions {
   setCategoriesPaneSize: (size: number) => void;
   setProfilesPaneSize: (size: number) => void;
   setSettingsCollapsed: (open: boolean) => void;
-  setStateFromSettings: (settings: Partial<IAppSettings & Pick<State, 'settingsLoaded'>>) => void;
+  setStateFromSettings: (settings: Partial<AppState>) => void;
   setCategories: (categories: Record<string, IMO2Category>) => void;
   setProfiles: (profiles: string[]) => void;
   setSelectedCategories: (selectedCategories: string[]) => void;
   setSelectedProfiles: (selectedProfiles: string[]) => void;
   setMainProfile: (mainProfile: string) => void;
+  setMods: (mods: Record<string, IModInfo[]>) => void;
 }
 
-const defaultState: State = {
+const defaultState: AppState = {
   theme: 'dark',
   directory: '',
   copySuffix: '',
@@ -39,9 +40,10 @@ const defaultState: State = {
   selectedProfiles: [],
   mainProfile: '',
   settingsLoaded: false,
+  mods: {},
 };
 
-export const useMO2FolderEditor = create<State & Actions>(set => ({
+export const useMO2FolderEditor = create<AppState & Actions>(set => ({
   ...defaultState,
 
   setTheme: theme => {
@@ -68,10 +70,15 @@ export const useMO2FolderEditor = create<State & Actions>(set => ({
     set({ settingsCollapsed });
     saveSetting('settingsCollapsed', settingsCollapsed);
   },
+  setMainProfile: mainProfile => {
+    set({ mainProfile });
+    saveSetting('mainProfile', mainProfile);
+  },
+
   setStateFromSettings: settings => set(settings),
   setCategories: categories => set({ categories: categories }),
   setProfiles: profiles => set({ profiles: profiles }),
   setSelectedCategories: selectedCategories => set({ selectedCategories }),
   setSelectedProfiles: selectedProfiles => set({ selectedProfiles }),
-  setMainProfile: mainProfile => set({ mainProfile }),
+  setMods: mods => set({ mods }),
 }));

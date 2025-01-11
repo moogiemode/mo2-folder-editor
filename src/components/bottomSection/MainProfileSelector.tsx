@@ -13,7 +13,9 @@ export const MainProfileSelector = () => {
       <DropdownMenuContent className="w-56">
         <DropdownMenuGroup>
           {profiles.map(profile => (
-            <DropdownMenuItem key={profile}>{profile}</DropdownMenuItem>
+            <DropdownMenuItem key={profile} onClick={() => useMO2FolderEditor.setState({ mainProfile: profile })}>
+              {profile}
+            </DropdownMenuItem>
           ))}
         </DropdownMenuGroup>
       </DropdownMenuContent>
